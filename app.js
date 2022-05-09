@@ -30,15 +30,29 @@ app.get('/restaurants/:restaurant_id', (req, res) => {
 })
 
 app.get('/search', (req, res) => {
-  const keyword = req.query.keyword.trim().toLowerCase().replaceAll(",", "")
-  const searchRestaurant = restaurantList.results.filter(restaurant => {
-    return restaurant.name.toLowerCase().includes(keyword) ||
-      restaurant.name_en.toLowerCase().includes(keyword) ||
-      restaurant.category.toLowerCase().includes(keyword)
-  })
+  const keyword = req.query.keyword.toLowerCase()
+  const keywords = keyword.split(',').map(item => item.trim())
+
+  const searchRestaurant = []
+
+  for (word of keywords) {
+    console.log(restaurantList.results.some(restaurant => {
+      restaurant.name.toLowerCase().includes(word)
+    }))
+    console.log("item", word)
+    const serResult = restaurantList.results.filter(restaurant => {
+      console.log("restaurant", restaurant.name.toLowerCase())
+      return restaurant.name.toLowerCase().includes(word)
+    })
+    if (serResult[0] !== undefined) {
+      searchRestaurant.push(serResult[0])
+    }
+  }
+  
   res.render('index', {
     restaurants: searchRestaurant, keyword: keyword
   })
+
 })
 
 // start and listen on the Express server
