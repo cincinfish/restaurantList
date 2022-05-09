@@ -1,0 +1,109 @@
+From 40b9da37570083a5f892b0196b52b183b97a7cfa Mon Sep 17 00:00:00 2001
+From: cincinfish <96610786+cincinfish@users.noreply.github.com>
+Date: Tue, 10 May 2022 01:27:47 +0800
+Subject: [PATCH] Multiple Search
+
+---
+ app.js                        | 26 ++++++++++++++++++++------
+ views/index.handlebars        | 24 +++++++++++++-----------
+ views/layouts/main.handlebars |  2 +-
+ 3 files changed, 34 insertions(+), 18 deletions(-)
+
+diff --git a/app.js b/app.js
+index c3dab2a..101d97f 100644
+--- a/app.js
++++ b/app.js
+@@ -30,15 +30,29 @@ app.get('/restaurants/:restaurant_id', (req, res) => {
+ })
+ 
+ app.get('/search', (req, res) => {
+-  const keyword = req.query.keyword.trim().toLowerCase().replaceAll(",", "")
+-  const searchRestaurant = restaurantList.results.filter(restaurant => {
+-    return restaurant.name.toLowerCase().includes(keyword) ||
+-      restaurant.name_en.toLowerCase().includes(keyword) ||
+-      restaurant.category.toLowerCase().includes(keyword)
+-  })
++  const keyword = req.query.keyword.toLowerCase()
++  const keywords = keyword.split(',').map(item => item.trim())
++
++  const searchRestaurant = []
++
++  for (word of keywords) {
++    console.log(restaurantList.results.some(restaurant => {
++      restaurant.name.toLowerCase().includes(word)
++    }))
++    console.log("item", word)
++    const serResult = restaurantList.results.filter(restaurant => {
++      console.log("restaurant", restaurant.name.toLowerCase())
++      return restaurant.name.toLowerCase().includes(word)
++    })
++    if (serResult[0] !== undefined) {
++      searchRestaurant.push(serResult[0])
++    }
++  }
++  
+   res.render('index', {
+     restaurants: searchRestaurant, keyword: keyword
+   })
++
+ })
+ 
+ // start and listen on the Express server
+diff --git a/views/index.handlebars b/views/index.handlebars
+index a5b2cf3..1eb7196 100644
+--- a/views/index.handlebars
++++ b/views/index.handlebars
+@@ -5,24 +5,26 @@
+       <form action="/search">
+         <h4 class="mb-2">尋找餐廳：</h4>
+         <div class="input-group">
+-          {{#if searchRestaurant.length}}
+-          <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..."
+-            value="{{ keyword }}" aria-describedby="search-button">
+-          {{else}}
+-          <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..."
+-            value="{{ keyword }}" aria-describedby="search-button">
+-          <script>
+-            alert("您搜尋的關鍵字{{ keyword }}不存在，請重新搜尋")
+-          </script>
+-          {{/if}}
++          {{#if restaurants.length}}
++          <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類，多筆輸入請用,分隔"
++            aria-label="Restaurant Name..." value="{{ keyword }}" aria-describedby="search-button">
+           <div class="input-group-append">
+             <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
+           </div>
+         </div>
+-      </form>
++        {{else}}
++        <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類，多筆輸入請用,分隔"
++          aria-label="Restaurant Name..." value="{{ keyword }}" aria-describedby="search-button">
++        <div class="input-group-append">
++          <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
++        </div>
+     </div>
++    <div>您搜尋的關鍵字<b>{{ keyword }}</b>不存在，請重新搜尋</div>
++    {{/if}}
++    </form>
+   </div>
+ </div>
++</div>
+ 
+ <!-- restaurant list -->
+ <div class="container mt-5">
+diff --git a/views/layouts/main.handlebars b/views/layouts/main.handlebars
+index 4a115fc..2e529ed 100644
+--- a/views/layouts/main.handlebars
++++ b/views/layouts/main.handlebars
+@@ -8,7 +8,7 @@
+   <title>Restaurant List</title>
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.min.css">
+-  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
++  <link rel="stylesheet" href="/stylesheets/bootstrap.css">
+   <link rel="stylesheet" href="/stylesheets/style.css">
+ </head>
+ 
+-- 
+2.35.1.windows.2
+

@@ -36,19 +36,14 @@ app.get('/search', (req, res) => {
   const searchRestaurant = []
 
   for (word of keywords) {
-    console.log(restaurantList.results.some(restaurant => {
-      restaurant.name.toLowerCase().includes(word)
-    }))
-    console.log("item", word)
     const serResult = restaurantList.results.filter(restaurant => {
-      console.log("restaurant", restaurant.name.toLowerCase())
-      return restaurant.name.toLowerCase().includes(word)
+      return restaurant.name.toLowerCase().includes(word) || restaurant.name_en.toLowerCase().includes(word)
     })
     if (serResult[0] !== undefined) {
       searchRestaurant.push(serResult[0])
     }
   }
-  
+
   res.render('index', {
     restaurants: searchRestaurant, keyword: keyword
   })
