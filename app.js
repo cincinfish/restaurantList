@@ -22,7 +22,9 @@ app.get('/', (req, res) => {
 })
 
 app.get('/restaurants/:restaurant_id', (req, res) => {
-  const restaurant = restaurantList.results.find(restaurant => restaurant.id.toString() === req.params.restaurant_id)
+  const restaurant = restaurantList.results.find(
+    restaurant => restaurant.id.toString() === req.params.restaurant_id
+  )
 
   res.render('show', {
     restaurant: restaurant
@@ -37,7 +39,8 @@ app.get('/search', (req, res) => {
 
   for (word of keywords) {
     const serResult = restaurantList.results.filter(restaurant => {
-      return restaurant.name.toLowerCase().includes(word) || restaurant.name_en.toLowerCase().includes(word)
+      return restaurant.name.toLowerCase().includes(word) ||
+        restaurant.name_en.toLowerCase().includes(word)
     })
     if (serResult[0] !== undefined) {
       searchRestaurant.push(serResult[0])
