@@ -1,5 +1,5 @@
 # Restaurant List
-![image]("https://github.com/cincinfish/restaurantList/views/picture/restaurantdemo1.png")
+![image]("https://github.com/cincinfish/restaurantList/blob/master/views/picture/restaurantdemo1.png")
 1. 使用者可以在首頁查看所有餐廳與它們的簡單資料，包括：餐廳照片、餐廳名稱、餐廳分類、餐廳評分
 2. 使用者可以點擊餐廳查看餐廳詳細資訊，包括：類別、地址、電話、描述、圖片
 3. 使用者可以透過搜尋餐廳名稱來找到特定的餐廳，可以用逗號(,)分隔一次搜尋多筆
