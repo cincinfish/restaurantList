@@ -1,11 +1,26 @@
 // require packages used in the project
 const express = require('express')
+const mongoose = require('mongoose')
 const app = express()
 const port = 3000
 
 // require express-handlebars
 const exphbs = require('express-handlebars')
-const restaurantList = require('./restaurant.json')
+const restaurantList = require('./restaurant.json').results
+
+// connect to mongoDB
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+const db = mongoose.connection
+
+db.on('error', () => {
+  console.log('moogodb error!')
+})
+
+db.once('open', () => {
+  console.log('mongodb connected!')
+})
+
+
 
 // setting template engine
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }))
@@ -16,40 +31,37 @@ app.use(express.static('public'))
 
 // routes setting
 app.get('/', (req, res) => {
-  res.render('index', {
-    restaurants: restaurantList.results
-  })
+  res.render('index', { restaurantList })
 })
 
 app.get('/restaurants/:restaurant_id', (req, res) => {
-  const restaurant = restaurantList.results.find(
+  const restaurant = restaurantList.find(
     restaurant => restaurant.id.toString() === req.params.restaurant_id
   )
 
-  res.render('show', {
-    restaurant: restaurant
-  })
+  res.render('show', { restaurant })
 })
 
 app.get('/search', (req, res) => {
-  const keyword = req.query.keyword.toLowerCase()
-  const keywords = keyword.split(',').map(item => item.trim())
+  const keyword = req.query.keyword
+  const keywords = keyword.toLowerCase().split(',').map(item => item.trim())
 
   const searchRestaurant = []
 
   for (word of keywords) {
-    const serResult = restaurantList.results.filter(restaurant => {
+    const serResult = restaurantList.filter(restaurant => {
       return restaurant.name.toLowerCase().includes(word) ||
-        restaurant.name_en.toLowerCase().includes(word)
+        restaurant.name_en.toLowerCase().includes(word) ||
+        restaurant.category.toLowerCase().includes(word)
     })
-    if (serResult[0] !== undefined) {
-      searchRestaurant.push(serResult[0])
+    for (let i = 0; i < serResult.length; i++) {
+      if (serResult[i] !== undefined) {
+        searchRestaurant.push(serResult[i])
+      }
     }
   }
 
-  res.render('index', {
-    restaurants: searchRestaurant, keyword: keyword
-  })
+  res.render('index', { restaurants: searchRestaurant, keyword })
 
 })
 
