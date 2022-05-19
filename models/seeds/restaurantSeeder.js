@@ -1,20 +1,28 @@
 const mongoose = require('mongoose')
 const restaurant = require('../restaurant')
-const restaurantList = require('./restaurant.json').results
+const restaurantList = require('../../restaurant.json').results
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection
 
 db.on('error', () => {
-  console.log('moogodb error!')
-
-  for (let i = 0; i < restaurantList.length; i++) {
-    restaurant.creat({ i })
-  }
-
-  console.log('done')
+  console.log('mongodb error!')
 })
 
 db.once('open', () => {
-  console.log('mongodb connected!')
+  console.log('mongodb error!')
+  restaurantList.forEach(element => {
+    restaurant.create({
+      name: element.name,
+      name_en: element.name_en,
+      category: element.category,
+      location: element.location,
+      google_map: element.google_map,
+      phone: element.phone,
+      rating: element.rating,
+      description: element.description,
+      image: element.image
+    })
+  })
+  console.log('done')
 })
