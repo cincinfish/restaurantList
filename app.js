@@ -20,11 +20,9 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
-
-
 // setting template engine
-app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }))
-app.set('view engine', 'handlebars')
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.set('view engine', 'hbs')
 
 // setting static files
 app.use(express.static('public'))
