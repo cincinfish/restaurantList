@@ -38,12 +38,16 @@ app.get('/restaurants/:restaurant_id', (req, res) => {
   const restaurant = restaurantList.find(
     restaurant => restaurant.id.toString() === req.params.restaurant_id
   )
-
   res.render('show', { restaurant })
 })
 
 app.get('/search', (req, res) => {
+
   const keyword = req.query.keyword
+  if (!keyword) {
+    res.render('index', { keyword })
+    return
+  }
   const keywords = keyword.toLowerCase().split(',').map(item => item.trim())
 
   const searchRestaurant = []
@@ -60,9 +64,7 @@ app.get('/search', (req, res) => {
       }
     }
   }
-
-  res.render('index', { restaurants: searchRestaurant, keyword })
-
+  res.render('index', { restaurantList: searchRestaurant, keyword })
 })
 
 // start and listen on the Express server
