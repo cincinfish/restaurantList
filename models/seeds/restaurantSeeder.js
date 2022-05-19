@@ -13,6 +13,7 @@ db.once('open', () => {
   console.log('mongodb error!')
   restaurantList.forEach(element => {
     restaurant.create({
+      res_id: element.id,
       name: element.name,
       name_en: element.name_en,
       category: element.category,

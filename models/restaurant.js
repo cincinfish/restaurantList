@@ -2,6 +2,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const RestaurantSchema = new Schema({
+  res_id: {
+    type: Number,
+    required: true
+  },
   name: {
     type: String,
     required: true
