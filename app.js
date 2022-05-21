@@ -4,12 +4,12 @@ const mongoose = require('mongoose')
 const app = express()
 const port = 3000
 
-
 // require express-handlebars
 const exphbs = require('express-handlebars')
-const restaurantList = require('./restaurant.json').results
-
+//const restaurantList = require('./restaurant.json').results
 const Restaurant = require('./models/restaurant')
+
+const bodyParser = require('body-parser')
 
 // connect to mongoDB
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -29,6 +29,7 @@ app.set('view engine', 'hbs')
 
 // setting static files
 app.use(express.static('public'))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // routes setting
 app.get('/', (req, res) => {
@@ -38,38 +39,62 @@ app.get('/', (req, res) => {
     .catch(error => console.error(error))
 })
 
-app.get('/restaurants/:restaurant_id', (req, res) => {
-  const restaurant = restaurantList.find(
-    restaurant => restaurant.id.toString() === req.params.restaurant_id
-  )
-  res.render('show', { restaurant })
+// add new restaurant
+app.get('/restaurants/new', (req, res) => {
+  res.render('new')
 })
 
-app.get('/search', (req, res) => {
-
-  const keyword = req.query.keyword
-  if (!keyword) {
-    res.render('index', { keyword })
-    return
-  }
-  const keywords = keyword.toLowerCase().split(',').map(item => item.trim())
-
-  const searchRestaurant = []
-
-  for (word of keywords) {
-    const serResult = restaurantList.filter(restaurant => {
-      return restaurant.name.toLowerCase().includes(word) ||
-        restaurant.name_en.toLowerCase().includes(word) ||
-        restaurant.category.toLowerCase().includes(word)
-    })
-    for (let i = 0; i < serResult.length; i++) {
-      if (serResult[i] !== undefined) {
-        searchRestaurant.push(serResult[i])
-      }
-    }
-  }
-  res.render('index', { restaurantList: searchRestaurant, keyword })
+app.post('/restaurants', (req, res) => {
+  const restaurantNew = req.body
+  return Restaurant.create({
+    name: `${restaurantNew.name}`,
+    name_en: `${restaurantNew.name_en}` || 'none',
+    category: `${restaurantNew.category}` || 'none',
+    image: `${restaurantNew.image}` || 'none',
+    location: `${restaurantNew.location}` || 'none',
+    phone: `${restaurantNew.phone}` || 'none',
+    google_map: `${restaurantNew.google_map}` || 'none',
+    rating: `${restaurantNew.rating}` || 'none',
+    description: `${restaurantNew.description}` || 'none'
+  })
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
 })
+
+
+// app.get('/restaurants/:id', (req, res) => {
+//   const restaurant = restaurantList.find(
+//     restaurant => restaurant.id.toString() === req.params.id
+//   )
+//   res.render('show', { restaurant })
+// })
+
+// app.get('/search', (req, res) => {
+
+//   const keyword = req.query.keyword
+//   if (!keyword) {
+//     res.render('index', { keyword })
+//     return
+//   }
+//   const keywords = keyword.toLowerCase().split(',').map(item => item.trim())
+
+//   const searchRestaurant = []
+
+//   for (word of keywords) {
+//     const serResult = restaurantList.filter(restaurant => {
+//       return restaurant.name.toLowerCase().includes(word) ||
+//         restaurant.name_en.toLowerCase().includes(word) ||
+//         restaurant.category.toLowerCase().includes(word)
+//     })
+//     for (let i = 0; i < serResult.length; i++) {
+//       if (serResult[i] !== undefined) {
+//         searchRestaurant.push(serResult[i])
+//       }
+//     }
+//   }
+//   res.render('index', { restaurantList: searchRestaurant, keyword })
+// })
+
 
 // start and listen on the Express server
 app.listen(port, () => {
