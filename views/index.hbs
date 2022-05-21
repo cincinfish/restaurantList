@@ -57,7 +57,12 @@
                   {{this.rating}}
                   <i class="fas fa-star fa-xs"></i>
                 </span>
-                <a href="./restaurants/{{this._id}}/edit" class="btn btn-link p-2">Edit</a>
+                <div class="d-flex justify-content-end align-items-center mr-1">
+                  <a href="./restaurants/{{this._id}}/edit" class="btn btn-link p-2">Edit</a>
+                  <form action="./restaurants/{{this._id}}/delete" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-link link-danger p-2">Delete</button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
