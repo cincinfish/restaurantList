@@ -109,31 +109,35 @@ app.post('/restaurants/:id/delete', (req, res) => {
     .catch(error => console.log(error))
 })
 
-// app.get('/search', (req, res) => {
+app.get('/search', (req, res) => {
 
-//   const keyword = req.query.keyword
-//   if (!keyword) {
-//     res.render('index', { keyword })
-//     return
-//   }
-//   const keywords = keyword.toLowerCase().split(',').map(item => item.trim())
-
-//   const searchRestaurant = []
-
-//   for (word of keywords) {
-//     const serResult = restaurantList.filter(restaurant => {
-//       return restaurant.name.toLowerCase().includes(word) ||
-//         restaurant.name_en.toLowerCase().includes(word) ||
-//         restaurant.category.toLowerCase().includes(word)
-//     })
-//     for (let i = 0; i < serResult.length; i++) {
-//       if (serResult[i] !== undefined) {
-//         searchRestaurant.push(serResult[i])
-//       }
-//     }
-//   }
-//   res.render('index', { restaurantList: searchRestaurant, keyword })
-// })
+  const keyword = req.query.keyword
+  if (!keyword) {
+    res.render('index', { keyword })
+    return
+  }
+  const keywords = keyword.toLowerCase().split(',').map(item => item.trim())
+  
+  Restaurant.find()
+    .lean()
+    .then(restaurantList => {
+      const searchRestaurant = []
+      for (word of keywords) {
+        const serResult = restaurantList.filter(restaurant => {
+          return restaurant.name.toLowerCase().includes(word) ||
+            restaurant.name_en.toLowerCase().includes(word) ||
+            restaurant.category.toLowerCase().includes(word)
+        })
+        for (let i = 0; i < serResult.length; i++) {
+          if (serResult[i] !== undefined) {
+            searchRestaurant.push(serResult[i])
+          }
+        }
+      }
+      res.render('index', { restaurantList: searchRestaurant, keyword })
+    })
+    .catch(error => console.log(error))
+})
 
 
 // start and listen on the Express server
