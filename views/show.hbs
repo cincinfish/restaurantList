@@ -3,6 +3,7 @@
   <div class="row">
     <div class="col-12 col-md-10 mx-auto">
 
+
       <p class="mb-1">
         <span class="text-secondary">
           <i class="fas fa-utensils pr-2"></i>
@@ -30,12 +31,13 @@
         {{ restaurant.phone }}
       </p>
 
-      <p class="mb-5">
+      <p class="mb-1">
         {{ restaurant.description}}
       </p>
-
+      <a href="./{{restaurant._id}}/edit" class="fw-bold fs-5 mb-5 link-primary float-end"> Edit</a>
       <img class="rounded mx-auto d-block mb-4 w-100" src="{{ restaurant.image }}" alt="{{ restaurant.title }}"
         style="max-width: 600px;">
     </div>
+
   </div>
 </div>

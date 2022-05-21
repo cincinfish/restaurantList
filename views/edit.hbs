@@ -1,0 +1,83 @@
+<div class="container mt-4 d-flex flex-column align-items-center new-container">
+  <div class="d-flex justify-content-between new-title">
+    <a href="/">
+      <i class="fa-solid fa-arrow-left fa-2x p-1"></i>
+    </a>
+    <h2>Edit New Restaurant</h2>
+  </div>
+  <form action="/restaurants/{{ restaurant._id }}/edit" method="POST" class="row">
+    <div class="col-6 mb-3">
+      <label for="name" class="form-label">Name: </label>
+      <input type="text" class="form-control" id="name" name="name" placeholder="Please enter restaurant name"
+        value="{{ restaurant.name }}" aria-describedby="chineseName">
+    </div>
+    <div class="col-6 mb-3">
+      <label for="name_en" class="form-label">English Name: </label>
+      <input type="text" class="form-control" id="name_en" name="name_en"
+        placeholder="Please enter restaurant's English name" value="{{ restaurant.name_en }}"
+        aria-describedby="englishName">
+    </div>
+
+    <!--類別用選擇-->
+    <div class="col-12 mb-3">
+      <label for="category" class="form-label">Category:
+      </label>
+      <input class="form-control" list="categoryData" id="category" name="category" placeholder="Type to search..."
+        value="{{ restaurant.category }}">
+      <datalist id="categoryData" aria-label="Please select restaurant category">
+        <option>中東料理</option>
+        <option>日本料理</option>
+        <option>義式餐廳</option>
+        <option>美式</option>
+        <option>酒吧</option>
+        <option>咖啡</option>
+      </datalist>
+    </div>
+
+    <!--上傳圖片模式，待改
+    <div class="mb-3">
+      <label for="formFile" class="form-label" name="image">Choose restaurant picture</label>
+      <input class="form-control" type="file" id="image">
+    </div>-->
+    <div class="col-12 mb-3">
+      <label for="image" class="form-label">Image:
+      </label>
+      <input type="url" class="form-control" id="image" name="image" placeholder="Please enter restaurant's image URL"
+        value="{{ restaurant.image }}" aria-describedby="image">
+    </div>
+
+    <div class="col-12 mb-3">
+      <label for="location" class="form-label">Location:
+      </label>
+      <input type="text" class="form-control" id="location" name="location"
+        placeholder="Please enter restaurant's address" value="{{ restaurant.location }}" aria-describedby="location">
+    </div>
+
+    <div class="col-12 mb-3">
+      <label for="phone" class="form-label">Phone: </label>
+      <input type="text" class="form-control" id="phone" name="phone" placeholder="Please enter restaurant's phone"
+        value="{{ restaurant.phone }}" aria-describedby="phone">
+    </div>
+    <div class="col-12 mb-3">
+      <label for="google_map" class="form-label">Google Map: </label>
+      <input type="url" class="form-control" placeholder="Please enter restaurant's google map URL" id="google_map"
+        value="{{ restaurant.google_map }}" name="google_map" aria-describedby="google_map">
+    </div>
+    <div class="col-12 mb-3">
+      <label for="rating" class="form-label">Rating: </label>
+      <input type="number" class="form-control" placeholder="Please enter restaurant's google map rate" id="rating"
+        name="rating" value="{{ restaurant.rating }}" aria-describedby="rating" min="0" max="5" step="0.1">
+    </div>
+    <div class="col-12  mb-3">
+      <label for="description" class="form-label">Description: </label>
+      <textarea class="form-control" id="description" name="description"
+        placeholder="Please enter restaurant's description" rows="3">{{ restaurant.description }}</textarea>
+    </div>
+
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <a href="/" class="btn btn-secondary">Back</a>
+    </div>
+  </form>
+</div>
