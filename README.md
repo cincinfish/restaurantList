@@ -1,11 +1,11 @@
 # Restaurant List
-![image](https://raw.githubusercontent.com/cincinfish/restaurantList/master/views/picture/restaurantdemo1.png)
+![image](https://github.com/cincinfish/restaurantList/blob/restaurantListCRUD/views/picture/restaurantdemo1.png?raw=true)
 1. 使用者可以在首頁查看所有餐廳與它們的簡單資料，包括：餐廳照片、餐廳名稱、餐廳分類、餐廳評分
 2. 使用者可以點擊餐廳查看餐廳詳細資訊，包括：類別、地址、電話、描述、圖片
 3. 使用者可以透過搜尋餐廳中文名稱、英文名稱與餐廳類別來找到特定的餐廳，並可用逗號(,)分隔一次搜尋多筆
-4. 使用者在首頁點擊 可以新增一家餐廳
-5. 使用者在點擊餐廳下的Edit編輯一家餐廳資料
-5. 使用者在點擊餐廳下的Delete刪除一家餐廳
+4. 使用者在首頁點擊<img src="https://github.com/cincinfish/restaurantList/blob/restaurantListCRUD/views/picture/create%20button.png?raw=true" width="30px">可以新增一家餐廳
+6. 使用者在點擊餐廳下的Edit編輯一家餐廳資料
+7. 使用者在點擊餐廳下的Delete刪除一家餐廳
 
 # 軟體及模組版本
 - nvm 1.1.9
