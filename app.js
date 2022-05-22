@@ -109,6 +109,8 @@ app.post('/restaurants/:id/delete', (req, res) => {
     .catch(error => console.log(error))
 })
 
+
+// search restaurant
 app.get('/search', (req, res) => {
 
   const keyword = req.query.keyword
@@ -117,7 +119,7 @@ app.get('/search', (req, res) => {
     return
   }
   const keywords = keyword.toLowerCase().split(',').map(item => item.trim())
-  
+
   Restaurant.find()
     .lean()
     .then(restaurantList => {
