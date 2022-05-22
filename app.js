@@ -131,9 +131,7 @@ app.get('/search', (req, res) => {
             restaurant.category.toLowerCase().includes(word)
         })
         for (let i = 0; i < serResult.length; i++) {
-          if (serResult[i] !== undefined) {
-            searchRestaurant.push(serResult[i])
-          }
+          searchRestaurant.push(serResult[i])
         }
       }
       res.render('index', { restaurantList: searchRestaurant, keyword })
