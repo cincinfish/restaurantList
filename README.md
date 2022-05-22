@@ -33,6 +33,10 @@ cd ../restaurantList
 ```
 npm install
 ```
+環境變數
+```
+set MONGODB_URI = mongodb+srv://使用者密碼@cluster0.3tylo.mongodb.net/restaurant?retryWrites=true&w=majority
+```
 匯入種子檔案
 ```
 npm run seed
