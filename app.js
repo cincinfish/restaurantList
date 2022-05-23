@@ -1,29 +1,14 @@
 // require packages used in the project
 const express = require('express')
-const mongoose = require('mongoose')
 const app = express()
 const port = 3000
-
 // require express-handlebars
 const exphbs = require('express-handlebars')
-const Restaurant = require('./models/restaurant')
-
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
-
 const routes = require('./routes')
 
-// connect to mongoDB
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-const db = mongoose.connection
-
-db.on('error', () => {
-  console.log('moogodb error!')
-})
-
-db.once('open', () => {
-  console.log('mongodb connected!')
-})
+require('./config/mongoose')
 
 // setting template engine
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
