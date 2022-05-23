@@ -5,7 +5,7 @@
     </a>
     <h2>Edit New Restaurant</h2>
   </div>
-  <form action="/restaurants/{{ restaurant._id }}/edit" method="POST" class="row">
+  <form action="/restaurants/{{ restaurant._id }}?_method=PUT" method="POST" class="row">
     <div class="col-6 mb-3">
       <label for="name" class="form-label">Name: </label>
       <input type="text" class="form-control" id="name" name="name" placeholder="Please enter restaurant name"
@@ -50,7 +50,8 @@
       <label for="location" class="form-label">Location:
       </label>
       <input type="text" class="form-control" id="location" name="location"
-        placeholder="Please enter restaurant's address" value="{{ restaurant.location }}" aria-describedby="location" required>
+        placeholder="Please enter restaurant's address" value="{{ restaurant.location }}" aria-describedby="location"
+        required>
     </div>
 
     <div class="col-12 mb-3">
