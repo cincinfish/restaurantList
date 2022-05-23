@@ -118,7 +118,7 @@ app.get('/search', (req, res) => {
     res.render('index', { keyword })
     return
   }
-  const keywords = keyword.toLowerCase().split(',').map(item => item.trim())
+  const keywords = [...new Set(keyword.toLowerCase().split(',').map(item => item.trim()))]
 
   Restaurant.find()
     .lean()
