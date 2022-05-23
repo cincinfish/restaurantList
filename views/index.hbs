@@ -28,19 +28,22 @@
   </div>
 </div>
 </div>
-<div id="add-page-scroll">
-  <a href="./restaurants/new">
-    <i class="fa-duotone fa-solid fa-circle-plus fa-2xl"></i>
-  </a>
+<div class="container d-flex justify-content-end">
+  <!-- sort -->
+  <div>
+    <select class="form-select form-select-lg d-inline-flex p-2 bd-highlight " id="sort" name="sort"
+      aria-label="form-select-lg example">
+      <option>A to Z</option>
+      <option>Z to A</option>
+      <option>Rating: Low to High</option>
+      <option>Rating: High to Low</option>
+    </select>
+  </div>
 </div>
-
-<!-- restaurant list -->
-
 <div class="container mt-5">
+  <!-- restaurant list -->
   <div class="row">
-
     <div class="col-md-10 col-12 mx-auto">
-
       <div class="row row-cols-1 row-cols-md-3 g-4">
         {{#each restaurantList}}
         <div class="col mb-4">

@@ -86,26 +86,20 @@ header {
   margin: 20px;
 }
 
-#add-page-scroll {
-  display: inline-block;
-  position: fixed;
-  right: 150px;
-  bottom: 90px;
-  z-index: 1;
-  font-size: 20px;
-  text-align: center;
-  background-color: white;
-  border-radius: 100px;
+.create-button {
+  color: white;
+  background-color: #4592af;
+}
+
+.create-button:hover {
+  color: #226089;
+  border-color: #226089;
 }
 
 @media screen and (max-width: 992px) {
 
   .card img {
     height: 115px;
-  }
-
-  #page-scroll {
-    right: 10px;
   }
 }
 
@@ -120,10 +114,6 @@ header {
 
   .card img {
     height: auto;
-  }
-
-  #page-scroll {
-    right: 10px;
   }
 
 }
