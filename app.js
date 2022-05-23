@@ -6,11 +6,12 @@ const port = 3000
 
 // require express-handlebars
 const exphbs = require('express-handlebars')
-//const restaurantList = require('./restaurant.json').results
 const Restaurant = require('./models/restaurant')
 
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
+
+const routes = require('./routes')
 
 // connect to mongoDB
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -32,115 +33,7 @@ app.set('view engine', 'hbs')
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
-
-// routes setting
-app.get('/', (req, res) => {
-  Restaurant.find()
-    .lean()
-    .then(restaurantList => res.render('index', { restaurantList }))
-    .catch(error => console.error(error))
-})
-
-// add new restaurant
-app.get('/restaurants/new', (req, res) => {
-  res.render('new')
-})
-
-// creat restaurant
-app.post('/restaurants', (req, res) => {
-  const restaurantNew = req.body
-  return Restaurant.create({
-    name: `${restaurantNew.name}`,
-    name_en: `${restaurantNew.name_en}` || 'none',
-    category: `${restaurantNew.category}` || 'none',
-    image: `${restaurantNew.image}` || 'none',
-    location: `${restaurantNew.location}` || 'none',
-    phone: `${restaurantNew.phone}` || 'none',
-    google_map: `${restaurantNew.google_map}` || 'none',
-    rating: `${restaurantNew.rating}` || 'none',
-    description: `${restaurantNew.description}` || 'none'
-  })
-    .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
-})
-
-// browse restaurant
-app.get('/restaurants/:id', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findById(id)
-    .lean()
-    .then((restaurant) => res.render('show', { restaurant }))
-    .catch(error => console.log(error))
-})
-
-// edit restaurant
-app.get('/restaurants/:id/edit', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findById(id)
-    .lean()
-    .then((restaurant) => res.render('edit', { restaurant }))
-    .catch(error => console.log(error))
-})
-
-app.put('/restaurants/:id', (req, res) => {
-  const id = req.params.id
-  const restaurantEdit = req.body
-  return Restaurant.findById(id)
-    .then((restaurant) => {
-      restaurant.name = restaurantEdit.name
-      restaurant.name_en = restaurantEdit.name_en
-      restaurant.category = restaurantEdit.category
-      restaurant.image = restaurantEdit.image
-      restaurant.location = restaurantEdit.location
-      restaurant.phone = restaurantEdit.phone
-      restaurant.google_map = restaurantEdit.google_map
-      restaurant.rating = restaurantEdit.rating
-      restaurant.description = restaurantEdit.description
-      return restaurant.save()
-    })
-    .then(() => res.redirect(`/restaurants/${id}`))
-    .catch(error => console.log(error))
-})
-
-// delete restaurant
-app.delete('/restaurants/:id', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findById(id)
-    .then(restaurant => restaurant.remove())
-    .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
-})
-
-
-// search restaurant
-app.get('/search', (req, res) => {
-
-  const keyword = req.query.keyword
-  if (!keyword) {
-    res.render('index', { keyword })
-    return
-  }
-  const keywords = [...new Set(keyword.toLowerCase().split(',').map(item => item.trim()))]
-
-  Restaurant.find()
-    .lean()
-    .then(restaurantList => {
-      const searchRestaurant = []
-      for (word of keywords) {
-        const serResult = restaurantList.filter(restaurant => {
-          return restaurant.name.toLowerCase().includes(word) ||
-            restaurant.name_en.toLowerCase().includes(word) ||
-            restaurant.category.toLowerCase().includes(word)
-        })
-        for (let i = 0; i < serResult.length; i++) {
-          searchRestaurant.push(serResult[i])
-        }
-      }
-      res.render('index', { restaurantList: searchRestaurant, keyword })
-    })
-    .catch(error => console.log(error))
-})
-
+app.use(routes)
 
 // start and listen on the Express server
 app.listen(port, () => {
