@@ -6,39 +6,36 @@
     <div class="search-bar-inner">
       <form action="/search">
         <h4 class="mb-2">尋找餐廳：</h4>
-        <div class="input-group">
-          {{#if restaurantList.length}}
-          <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類，多筆輸入請用,分隔"
-            aria-label="Restaurant Name..." value="{{ keyword }}" aria-describedby="search-button">
-          <div class="input-group-append">
-            <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
+        <div class="d-flex align-items-center">
+          <div class="input-group">
+            <input type="text" name="keyword" class="form-control mx-2" placeholder="輸入餐廳、分類，多筆輸入請用,分隔"
+              aria-label="Restaurant Name..." value="{{ keyword }}" aria-describedby="search-button">
+            <div class="input-group-append mx-2">
+              <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
+            </div>
           </div>
-        </div>
-        {{else}}
-        <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類，多筆輸入請用,分隔"
-          aria-label="Restaurant Name..." value="{{ keyword }}" aria-describedby="search-button">
-        <div class="input-group-append">
-          <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
+          <select class="form-select form-select-lg d-inline-flex bd-highlight  w-25" id="sort" name="sort"
+            onchange="this.form.submit()" aria-label="form-select-lg example">
+            <option value="" {{#if sort.id-asc}}selected{{/if}}>Sort</option>
+            <option value="name-asc" {{#if sort.name-asc}}selected{{/if}}>A to Z</option>
+            <option value="name-desc" {{#if sort.name-desc}}selected{{/if}}>Z to A</option>
+            <option value="rating-asc" {{#if sort.rating-asc}}selected{{/if}}>Rating: Low to High</option>
+            <option value="rating-desc" {{#if sort.rating-desc}}selected{{/if}}>Rating: High to Low</option>
+          </select>
         </div>
     </div>
+    {{#if restaurantList.length}}
+    {{else}}
     <div>您搜尋的關鍵字<b>{{ keyword }}</b>不存在，請重新搜尋</div>
     {{/if}}
+    <!-- sort -->
+
     </form>
   </div>
 </div>
 </div>
 <div class="container d-flex justify-content-end mt-2 pe-5">
-  <!-- sort -->
-  <form action="/search">
-    <select class="form-select form-select-lg d-inline-flex mx-10 bd-highlight " id="sort" name="sort" 
-      onchange="this.form.submit()" aria-label="form-select-lg example">
-      <option value="" {{#if sort.id-asc}}selected{{/if}}>Select sort</option>
-      <option value="name-asc" {{#if sort.name-asc}}selected{{/if}}>A to Z</option>
-      <option value="name-desc" {{#if sort.name-desc}}selected{{/if}}>Z to A</option>
-      <option value="rating-asc" {{#if sort.rating-asc}}selected{{/if}}>Rating: Low to High</option>
-      <option value="rating-desc" {{#if sort.rating-desc}}selected{{/if}}>Rating: High to Low</option>
-    </select>
-  </form>
+
 </div>
 <div class="container mt-5">
   <!-- restaurant list -->

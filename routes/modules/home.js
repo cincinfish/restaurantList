@@ -16,7 +16,7 @@ router.get('/search', (req, res) => {
   // if (!req.query.keyword) {
   //   return res.redirect("/")
   // }
-  let keyword = req.query.keyword
+  let keyword = req.query.keyword ? req.query.keyword : ''
   const sortValue = req.query.sort
   const sortOptions = {
     "id-asc": { id: "asc" },
@@ -26,9 +26,7 @@ router.get('/search', (req, res) => {
     "rating-desc": { rating: "desc" },
   }
   const sort = sortValue ? { [sortValue]: true } : { "id-asc": true }
-  if (!req.query.keyword) {
-    keyword = ""
-  }
+
   const keywords = [...new Set(keyword.toLowerCase().split(',').map(item => item.trim()))]
 
   Restaurant.find()
