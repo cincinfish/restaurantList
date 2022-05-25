@@ -46,15 +46,7 @@ router.put('/:id', (req, res) => {
   const restaurantEdit = req.body
   return Restaurant.findById(id)
     .then((restaurant) => {
-      restaurant.name = restaurantEdit.name
-      restaurant.name_en = restaurantEdit.name_en
-      restaurant.category = restaurantEdit.category
-      restaurant.image = restaurantEdit.image
-      restaurant.location = restaurantEdit.location
-      restaurant.phone = restaurantEdit.phone
-      restaurant.google_map = restaurantEdit.google_map
-      restaurant.rating = restaurantEdit.rating
-      restaurant.description = restaurantEdit.description
+      restaurant = Object.assign(restaurant, restaurantEdit)
       return restaurant.save()
     })
     .then(() => res.redirect(`/restaurants/${id}`))
