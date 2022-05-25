@@ -8,7 +8,10 @@ router.get('/', (req, res) => {
     .lean()
     .sort({ _id: "asc" })
     .then(restaurantList => res.render('index', { restaurantList }))
-    .catch(error => console.error(error))
+    .catch(error => {
+      console.log(error)
+      res.render('index', { error: error.message })
+    })
 })
 
 //search restaurant
@@ -46,8 +49,10 @@ router.get('/search', (req, res) => {
       }
       res.render('index', { restaurantList: searchRestaurant, keyword, sort })
     })
-    .catch(error => console.log(error))
-
+    .catch(error => {
+      console.log(error)
+      res.render('index', { error: error.message })
+    })
 })
 
 module.exports = router

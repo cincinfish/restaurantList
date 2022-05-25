@@ -11,7 +11,10 @@ router.post('/', (req, res) => {
   const restaurantNew = req.body
   return Restaurant.create(restaurantNew)
     .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
+    .catch(error => {
+      console.log(error)
+      res.render('/', { error: error.message })
+    })
 })
 
 // browse restaurant
@@ -20,7 +23,10 @@ router.get('/:id', (req, res) => {
   return Restaurant.findById(id)
     .lean()
     .then((restaurant) => res.render('show', { restaurant }))
-    .catch(error => console.log(error))
+    .catch(error => {
+      console.log(error)
+      res.render('show', { error: error.message })
+    })
 })
 
 // edit restaurant
@@ -29,7 +35,10 @@ router.get('/:id/edit', (req, res) => {
   return Restaurant.findById(id)
     .lean()
     .then((restaurant) => res.render('edit', { restaurant }))
-    .catch(error => console.log(error))
+    .catch(error => {
+      console.log(error)
+      res.render('edit', { error: error.message })
+    })
 })
 
 router.put('/:id', (req, res) => {
@@ -49,7 +58,10 @@ router.put('/:id', (req, res) => {
       return restaurant.save()
     })
     .then(() => res.redirect(`/restaurants/${id}`))
-    .catch(error => console.log(error))
+    .catch(error => {
+      console.log(error)
+      res.render(`/restaurants/${id}`, { error: error.message })
+    })
 })
 
 // delete restaurant
@@ -58,7 +70,10 @@ router.delete('/:id', (req, res) => {
   return Restaurant.findById(id)
     .then(restaurant => restaurant.remove())
     .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
+    .catch(error => {
+      console.log(error)
+      res.render('/', { error: error.message })
+    })
 })
 
 
