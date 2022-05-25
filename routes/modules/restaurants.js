@@ -9,17 +9,7 @@ router.get('/new', (req, res) => {
 // creat restaurant
 router.post('/', (req, res) => {
   const restaurantNew = req.body
-  return Restaurant.create({
-    name: `${restaurantNew.name}`,
-    name_en: `${restaurantNew.name_en}` || 'none',
-    category: `${restaurantNew.category}` || 'none',
-    image: `${restaurantNew.image}` || 'none',
-    location: `${restaurantNew.location}` || 'none',
-    phone: `${restaurantNew.phone}` || 'none',
-    google_map: `${restaurantNew.google_map}` || 'none',
-    rating: `${restaurantNew.rating}` || 'none',
-    description: `${restaurantNew.description}` || 'none'
-  })
+  return Restaurant.create(restaurantNew)
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })

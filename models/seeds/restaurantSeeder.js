@@ -15,6 +15,10 @@ db.once('open', () => {
       description: element.description,
       image: element.image
     })
+      .then(() => {
+        console.log('done')
+      })
+      .catch(err => console.log(err))
+      .finally(() => db.close())
   })
-  console.log('done')
 }) 
