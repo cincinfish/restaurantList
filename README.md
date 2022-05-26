@@ -19,6 +19,7 @@
 - Font-awesome: 6.1.1
 - body-parser: 1.20.0
 - method-override: 3.0.0
+- express-validator: 6.14.1
 
 # 安裝與下載
 安裝nvm
