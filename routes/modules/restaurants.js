@@ -1,13 +1,29 @@
 const express = require('express')
 const router = express.Router()
 const Restaurant = require('../../models/restaurant')
+const { check, validationResult } = require('express-validator')
 
 router.get('/new', (req, res) => {
   res.render('new')
 })
 
 // creat restaurant
-router.post('/', (req, res) => {
+router.post('/', [
+  check('name').not().isEmpty().withMessage('Name cannot be empty'),
+  check('en_name').isAlphanumeric(),
+  check('category').isAscii(),
+  check('image').isURL(),
+  check('location').isAscii(),
+  check('phone').isNumeric(),
+  check('google_map').isURL(),
+  check('rating').isNumeric(),
+  check('description').isNumeric(),
+], (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(422).render('new', { errors: errors.array() })
+  }
+
   const restaurantNew = req.body
   return Restaurant.create(restaurantNew)
     .then(() => res.redirect('/'))
@@ -41,7 +57,17 @@ router.get('/:id/edit', (req, res) => {
     })
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', [
+  check('name').isAscii().withMessage('必填'),
+  check('en_name').isAlphanumeric().withMessage(''),
+  check('category').isAscii(),
+  check('image').isURL(),
+  check('location').isAscii(),
+  check('phone').isNumeric(),
+  check('google_map').isURL(),
+  check('rating').isNumeric(),
+  check('description').isNumeric(),
+], (req, res) => {
   const id = req.params.id
   const restaurantEdit = req.body
   return Restaurant.findById(id)
@@ -67,8 +93,5 @@ router.delete('/:id', (req, res) => {
       res.render('/', { error: error.message })
     })
 })
-
-
-
 
 module.exports = router
