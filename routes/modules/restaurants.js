@@ -58,8 +58,8 @@ router.get('/:id/edit', (req, res) => {
 })
 
 router.put('/:id', [
-  check('name').isAscii().withMessage('必填'),
-  check('en_name').isAlphanumeric().withMessage(''),
+  check('name').not().isEmpty().withMessage('Name cannot be empty'),
+  check('en_name').isAlphanumeric(),
   check('category').isAscii(),
   check('image').isURL(),
   check('location').isAscii(),
@@ -68,6 +68,12 @@ router.put('/:id', [
   check('rating').isNumeric(),
   check('description').isNumeric(),
 ], (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(422).render('user', {
+      errorMessages: errors.array()
+    })
+  }
   const id = req.params.id
   const restaurantEdit = req.body
   return Restaurant.findById(id)
