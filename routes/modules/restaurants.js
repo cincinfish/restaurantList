@@ -10,14 +10,14 @@ router.get('/new', (req, res) => {
 // creat restaurant
 router.post('/', [
   check('name').not().isEmpty().withMessage('Name cannot be empty'),
-  check('en_name').isAlphanumeric(),
-  check('category').isAscii(),
-  check('image').isURL(),
-  check('location').isAscii(),
-  check('phone').isNumeric(),
-  check('google_map').isURL(),
-  check('rating').isNumeric(),
-  check('description').isNumeric(),
+  check('en_name').isAlphanumeric().withMessage('Please enter English Name'),
+  check('category').isAscii().withMessage('Please enter category'),
+  check('image').isURL().withMessage('Please enter image '),
+  check('location').isAscii().withMessage('Please enter  location'),
+  check('phone').isNumeric().withMessage('Please enter  phone'),
+  check('google_map').isURL().withMessage('Please enter  Google Map url'),
+  check('rating').isNumeric().withMessage('Please enter  google-map rating'),
+  check('description').isNumeric().withMessage('Please enter description')
 ], (req, res) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
@@ -59,21 +59,20 @@ router.get('/:id/edit', (req, res) => {
 
 router.put('/:id', [
   check('name').not().isEmpty().withMessage('Name cannot be empty'),
-  check('en_name').isAlphanumeric(),
-  check('category').isAscii(),
-  check('image').isURL(),
-  check('location').isAscii(),
-  check('phone').isNumeric(),
-  check('google_map').isURL(),
-  check('rating').isNumeric(),
-  check('description').isNumeric(),
+  check('en_name').isAlphanumeric().withMessage('Please enter English Name'),
+  check('category').isAscii().withMessage('Please enter category'),
+  check('image').isURL().withMessage('Please enter image '),
+  check('location').isAscii().withMessage('Please enter  location'),
+  check('phone').isNumeric().withMessage('Please enter  phone'),
+  check('google_map').isURL().withMessage('Please enter  Google Map url'),
+  check('rating').isNumeric().withMessage('Please enter  google-map rating'),
+  check('description').isNumeric().withMessage('Please enter description')
 ], (req, res) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    return res.status(422).render('user', {
-      errorMessages: errors.array()
-    })
+    return res.status(422).render('edit', { errors: errors.array() })
   }
+
   const id = req.params.id
   const restaurantEdit = req.body
   return Restaurant.findById(id)
