@@ -16,10 +16,6 @@ router.get('/', (req, res) => {
 
 //search restaurant
 router.get('/search', (req, res) => {
-  // if (!req.query.keyword) {
-  //   return res.redirect("/")
-  // }
-  let keyword = req.query.keyword ? req.query.keyword : ''
   const sortValue = req.query.sort
   const sortOptions = {
     "id-asc": { id: "asc" },
@@ -30,24 +26,21 @@ router.get('/search', (req, res) => {
   }
   const sort = sortValue ? { [sortValue]: true } : { "id-asc": true }
 
-  const keywords = [...new Set(keyword.toLowerCase().split(',').map(item => item.trim()))]
-
-  Restaurant.find()
+  let keyword = req.query.keyword ? req.query.keyword : ''
+  const keywords = keyword.split(',').map(item => {
+    return new RegExp(item.trim(), 'i')
+  })
+  Restaurant.find({
+    $or: [
+      { name: { $in: keywords } },
+      { name_en: { $in: keywords } },
+      { category: { $in: keywords } }
+    ]
+  })
     .lean()
     .sort(sortOptions[sortValue])
     .then(restaurantList => {
-      const searchRestaurant = []
-      for (word of keywords) {
-        const serResult = restaurantList.filter(restaurant => {
-          return restaurant.name.toLowerCase().includes(word) ||
-            restaurant.name_en.toLowerCase().includes(word) ||
-            restaurant.category.toLowerCase().includes(word)
-        })
-        for (let i = 0; i < serResult.length; i++) {
-          searchRestaurant.push(serResult[i])
-        }
-      }
-      res.render('index', { restaurantList: searchRestaurant, keyword, sort })
+      res.render('index', { restaurantList, keyword, sort })
     })
     .catch(error => {
       console.log(error)
