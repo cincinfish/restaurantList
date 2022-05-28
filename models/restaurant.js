@@ -8,35 +8,35 @@ const RestaurantSchema = new Schema({
   },
   name_en: {
     type: String,
-    default: 'none'
+    default: 'None'
   },
   category: {
     type: String,
-    default: 'none'
+    default: 'None'
   },
   image: {
     type: String,
-    default: 'none'
+    default: 'https://image.shutterstock.com/image-photo/interior-cozy-restaurant-contemporary-design-600w-709645828.jpg'
   },
   location: {
     type: String,
-    default: 'none'
+    default: 'None'
   },
   phone: {
     type: Number,
-    default: 'none'
+    default: '0'
   },
   google_map: {
     type: String,
-    default: 'none'
+    default: 'None'
   },
   rating: {
     type: Number,
-    default: 'none'
+    default: '0'
   },
   description: {
     type: String,
-    default: 'none'
+    default: 'None'
   }
 })
 

@@ -96,6 +96,15 @@ header {
   border-color: #226089;
 }
 
+.alert-message {
+  display: block;
+  top: 5px;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+}
+
 @media screen and (max-width: 992px) {
 
   .card img {

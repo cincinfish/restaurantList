@@ -6,7 +6,7 @@
     <h2>Add New Restaurant</h2>
   </div>
   {{#each errors}}
-  <div class="alert-dismissible fade show d-flex align-items-center" role="alert">
+  <div class="alert alert-danger alert-dismissible fade show alert-message" role="alert">
     {{this.msg}}
     <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
     </button>
@@ -16,12 +16,13 @@
     <div class="col-6 mb-3">
       <label for="name" class="form-label">Name: </label>
       <input type="text" class="form-control" id="name" name="name" placeholder="Please enter restaurant name"
-        aria-describedby="chineseName" required autofocus>
+        aria-describedby="chineseName" required autofocus value="{{ restaurantNew.name }}">
     </div>
     <div class="col-6 mb-3">
       <label for="name_en" class="form-label">English Name: </label>
       <input type="text" class="form-control" id="name_en" name="name_en"
-        placeholder="Please enter restaurant's English name" aria-describedby="englishName">
+        placeholder="Please enter restaurant's English name" aria-describedby="englishName"
+        value="{{ restaurantNew.name_en }}">
     </div>
 
     <!--類別用選擇-->
@@ -29,7 +30,7 @@
       <label for="category" class="form-label">Category:
       </label>
       <input type="text" class="form-control" list="categoryData" id="category" name="category"
-        placeholder="Type to search...">
+        placeholder="Type to search..." value="{{ restaurantNew.category }}">
       <datalist id="categoryData" aria-label="Please select restaurant category">
         <option>中東料理</option>
         <option>日本料理</option>
@@ -49,35 +50,36 @@
       <label for="image" class="form-label">Image:
       </label>
       <input type="url" class="form-control" id="image" name="image" placeholder="Please enter restaurant's image URL"
-        aria-describedby="image">
+        aria-describedby="image" value="{{ restaurantNew.url }}">
     </div>
 
     <div class="col-12 mb-3">
       <label for="location" class="form-label">Location:
       </label>
       <input type="text" class="form-control" id="location" name="location"
-        placeholder="Please enter restaurant's address" aria-describedby="location">
+        placeholder="Please enter restaurant's address" aria-describedby="location"
+        value="{{ restaurantNew.location }}">
     </div>
 
     <div class="col-12 mb-3">
       <label for="phone" class="form-label">Phone: </label>
       <input type="number" class="form-control" id="phone" name="phone" placeholder="Please enter restaurant's phone"
-        aria-describedby="phone">
+        aria-describedby="phone" value="{{ restaurantNew.phone }}">
     </div>
     <div class="col-12 mb-3">
       <label for="google_map" class="form-label">Google Map: </label>
       <input type="url" class="form-control" placeholder="Please enter restaurant's google map URL" id="google_map"
-        name="google_map" aria-describedby="google_map">
+        name="google_map" aria-describedby="google_map" value="{{ restaurantNew.google_map }}">
     </div>
     <div class="col-12 mb-3">
       <label for="rating" class="form-label">Rating: </label>
       <input type="number" class="form-control" placeholder="Please enter restaurant's google map rate" id="rating"
-        name="rating" aria-describedby="rating" min="1" max="5" step="0.1">
+        name="rating" aria-describedby="rating" min="1" max="5" step="0.1" value="{{ restaurantNew.rating }}">
     </div>
     <div class="col-12  mb-3">
       <label for="description" class="form-label">Description: </label>
       <textarea class="form-control" id="description" name="description"
-        placeholder="Please enter restaurant's description" rows="3"></textarea>
+        placeholder="Please enter restaurant's description" rows="3" value="{{ restaurantNew.description }}"></textarea>
     </div>
 
 

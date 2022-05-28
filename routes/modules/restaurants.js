@@ -10,22 +10,27 @@ router.get('/new', (req, res) => {
 // creat restaurant
 router.post('/', [
   check('name').not().isEmpty().withMessage('Name cannot be empty'),
-  check('en_name').isAlphanumeric().withMessage('Please enter English Name'),
-  check('category').isAscii().withMessage('Please enter category'),
-  check('image').isURL().withMessage('Please enter image '),
-  check('location').isAscii().withMessage('Please enter  location'),
-  check('phone').isNumeric().withMessage('Please enter  phone'),
-  check('google_map').isURL().withMessage('Please enter  Google Map url'),
-  check('rating').isNumeric().withMessage('Please enter  google-map rating'),
-  check('description').isNumeric().withMessage('Please enter description')
 ], (req, res) => {
+  const restaurantNew = req.body
+  const restaurantCreate = {
+    name: req.body.name
+  }
   const errors = validationResult(req)
+
   if (!errors.isEmpty()) {
-    return res.status(422).render('new', { errors: errors.array() })
+    return res.status(422).render('new', {
+      errors: errors.array(),
+      restaurant: { restaurantNew }
+    })
+  }
+  const createItem = ['name_en', 'category', 'image', 'location', 'phone', 'google_map', 'rating', 'description']
+  for (item of createItem) {
+    if (req.body.item) {
+      restaurantCreate.item = req.body.item
+    }
   }
 
-  const restaurantNew = req.body
-  return Restaurant.create(restaurantNew)
+  return Restaurant.create(restaurantCreate)
     .then(() => res.redirect('/'))
     .catch(error => {
       console.log(error)
@@ -59,22 +64,20 @@ router.get('/:id/edit', (req, res) => {
 
 router.put('/:id', [
   check('name').not().isEmpty().withMessage('Name cannot be empty'),
-  check('en_name').isAlphanumeric().withMessage('Please enter English Name'),
-  check('category').isAscii().withMessage('Please enter category'),
-  check('image').isURL().withMessage('Please enter image '),
-  check('location').isAscii().withMessage('Please enter  location'),
-  check('phone').isNumeric().withMessage('Please enter  phone'),
-  check('google_map').isURL().withMessage('Please enter  Google Map url'),
-  check('rating').isNumeric().withMessage('Please enter  google-map rating'),
-  check('description').isNumeric().withMessage('Please enter description')
 ], (req, res) => {
+  const restaurantEdit = req.body
+
   const errors = validationResult(req)
+  console.log(errors)
   if (!errors.isEmpty()) {
-    return res.status(422).render('edit', { errors: errors.array() })
+    return res.status(422).render('edit', {
+      errors: errors.array(),
+      restaurant: { restaurantEdit }
+    })
   }
 
   const id = req.params.id
-  const restaurantEdit = req.body
+
   return Restaurant.findById(id)
     .then((restaurant) => {
       restaurant = Object.assign(restaurant, restaurantEdit)
