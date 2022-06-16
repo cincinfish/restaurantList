@@ -8,6 +8,8 @@ const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const routes = require('./routes')
 
+require('dotenv').config()
+
 require('./config/mongoose')
 
 // setting template engine
@@ -22,5 +24,6 @@ app.use(routes)
 
 // start and listen on the Express server
 app.listen(port, () => {
+  console.log(process.env.MONGODB_URI)
   console.log(`Express is listening on localhost:${port}`)
 })
