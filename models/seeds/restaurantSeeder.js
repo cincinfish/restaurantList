@@ -17,8 +17,8 @@ db.once('open', () => {
     })
       .then(() => {
         console.log('done')
+        return db.close()
       })
       .catch(err => console.log(err))
-      .finally(() => db.close())
   })
 }) 
