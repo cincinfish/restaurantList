@@ -37,7 +37,6 @@ app.use((req, res, next) => {
   res.locals.login_msg = req.flash('login_msg')
   next()
 })
-
 app.use(routes)
 
 
