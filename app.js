@@ -1,7 +1,7 @@
 // require packages used in the project
 const express = require('express')
 const app = express()
-const port = 3000
+const port = process.env.PORT
 // require express-handlebars
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
