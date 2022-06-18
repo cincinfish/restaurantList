@@ -10,6 +10,10 @@ router.get('/new', (req, res) => {
 // creat restaurant
 router.post('/', [
   check('name').not().isEmpty().withMessage('Name cannot be empty'),
+  check('image').isURL().withMessage('Please enter image'),
+  check('phone').isNumeric().withMessage('Please enter phone'),
+  check('google_map').isURL().withMessage('Please enter Google Map url'),
+  check('rating').isNumeric().withMessage('Please enter google-map rating')
 ], (req, res) => {
   const userId = req.user._id
   const restaurantNew = req.body
@@ -67,9 +71,14 @@ router.get('/:id/edit', (req, res) => {
 
 router.put('/:id', [
   check('name').not().isEmpty().withMessage('Name cannot be empty'),
+  check('image').isURL().withMessage('Please enter image'),
+  check('phone').isNumeric().withMessage('Please enter phone'),
+  check('google_map').isURL().withMessage('Please enter Google Map url'),
+  check('rating').isNumeric().withMessage('Please enter google-map rating')
 ], (req, res) => {
   const restaurantEdit = req.body
   const errors = validationResult(req)
+
   if (!errors.isEmpty()) {
     return res.status(422).render('edit', {
       errors: errors.array(),

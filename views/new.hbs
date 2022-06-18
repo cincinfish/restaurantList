@@ -5,13 +5,7 @@
     </a>
     <h2>Add New Restaurant</h2>
   </div>
-  {{#each errors}}
-  <div class="alert alert-danger alert-dismissible fade show alert-message" role="alert">
-    {{this.msg}}
-    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
-    </button>
-  </div>
-  {{/each}}
+  {{> message}}
   <form action="/restaurants" method="POST" class="row">
     <div class="col-6 mb-3">
       <label for="name" class="form-label">Name: </label>
@@ -41,11 +35,6 @@
       </datalist>
     </div>
 
-    <!--上傳圖片模式
-    <div class="mb-3">
-      <label for="formFile" class="form-label" name="image">Choose restaurant picture</label>
-      <input class="form-control" type="file" id="image">
-    </div>-->
     <div class="col-12 mb-3">
       <label for="image" class="form-label">Image:
       </label>

@@ -1,7 +1,6 @@
 // require packages used in the project
 const express = require('express')
 const app = express()
-const port = process.env.PORT
 // require express-handlebars
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
@@ -11,9 +10,11 @@ const routes = require('./routes')
 const usePassport = require('./config/passport')
 const flash = require('connect-flash')
 
-require('dotenv').config()
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+const port = process.env.PORT
 require('./config/mongoose')
-
 // setting template engine
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
