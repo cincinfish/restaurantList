@@ -11,10 +11,12 @@ router.get('/new', (req, res) => {
 router.post('/', [
   check('name').not().isEmpty().withMessage('Name cannot be empty'),
 ], (req, res) => {
+  const userId = req.user._id
   const restaurantNew = req.body
   const restaurantCreate = {
     name: req.body.name
   }
+  restaurantCreate.userId = userId
   const errors = validationResult(req)
 
   if (!errors.isEmpty()) {
@@ -25,11 +27,10 @@ router.post('/', [
   }
   const createItem = ['name_en', 'category', 'image', 'location', 'phone', 'google_map', 'rating', 'description']
   for (item of createItem) {
-    if (req.body.item) {
-      restaurantCreate.item = req.body.item
+    if (req.body[item]) {
+      restaurantCreate[item] = req.body[item]
     }
   }
-
   return Restaurant.create(restaurantCreate)
     .then(() => res.redirect('/'))
     .catch(error => {
@@ -40,8 +41,9 @@ router.post('/', [
 
 // browse restaurant
 router.get('/:id', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findById(id)
+  const _id = req.params.id
+  const userId = req.user._id
+  return Restaurant.findOne({ _id, userId })
     .lean()
     .then((restaurant) => res.render('show', { restaurant }))
     .catch(error => {
@@ -52,8 +54,9 @@ router.get('/:id', (req, res) => {
 
 // edit restaurant
 router.get('/:id/edit', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findById(id)
+  const userId = req.user._id
+  const _id = req.params.id
+  return Restaurant.findOne({ _id, userId })
     .lean()
     .then((restaurant) => res.render('edit', { restaurant }))
     .catch(error => {
@@ -66,34 +69,33 @@ router.put('/:id', [
   check('name').not().isEmpty().withMessage('Name cannot be empty'),
 ], (req, res) => {
   const restaurantEdit = req.body
-
   const errors = validationResult(req)
-  console.log(errors)
   if (!errors.isEmpty()) {
     return res.status(422).render('edit', {
       errors: errors.array(),
       restaurant: { restaurantEdit }
     })
   }
+  const userId = req.user._id
+  const _id = req.params.id
 
-  const id = req.params.id
-
-  return Restaurant.findById(id)
+  return Restaurant.findOne({ _id, userId })
     .then((restaurant) => {
       restaurant = Object.assign(restaurant, restaurantEdit)
-      return restaurant.save()
+      restaurant.save()
     })
-    .then(() => res.redirect(`/restaurants/${id}`))
+    .then(() => res.redirect(`/restaurants/${_id}`))
     .catch(error => {
       console.log(error)
-      res.render(`/restaurants/${id}`, { error: error.message })
+      res.render(`/restaurants/${_id}`, { error: error.message })
     })
 })
 
 // delete restaurant
 router.delete('/:id', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findById(id)
+  const userId = req.user._id
+  const _id = req.params.id
+  return Restaurant.findOne({ _id, userId })
     .then(restaurant => restaurant.remove())
     .then(() => res.redirect('/'))
     .catch(error => {
