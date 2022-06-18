@@ -17,6 +17,7 @@ router.get('/', (req, res) => {
 
 //search restaurant
 router.get('/search', (req, res) => {
+  const userId = req.user._id
   const sortValue = req.query.sort
   const sortOptions = {
     "id-asc": { id: "asc" },
@@ -36,6 +37,9 @@ router.get('/search', (req, res) => {
       { name: { $in: keywords } },
       { name_en: { $in: keywords } },
       { category: { $in: keywords } }
+    ],
+    $and: [
+      { userId }
     ]
   })
     .lean()
