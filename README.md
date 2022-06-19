@@ -1,5 +1,5 @@
 # Restaurant List
-![image](https://github.com/cincinfish/restaurantList/blob/restaurantListRefactor/views/picture/restaurantdemo7.png?raw=true)
+![image](https://github.com/cincinfish/restaurantList/blob/restaurantFinal/views/picture/restaurantdemo7.png?raw=true)
 1. 使用者可以使用名字、email、密碼、確認密碼註冊再登入
 2. 使用者可以使用facebook註冊並直接登入
 3. 使用者必須登入才能使用餐廳清單
