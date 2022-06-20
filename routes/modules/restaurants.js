@@ -11,7 +11,6 @@ router.get('/new', (req, res) => {
 router.post('/', [
   check('name').not().isEmpty().withMessage('Name cannot be empty'),
   check('image').isURL().withMessage('Please enter image'),
-  check('phone').isNumeric().withMessage('Please enter phone'),
   check('google_map').isURL().withMessage('Please enter Google Map url'),
   check('rating').isNumeric().withMessage('Please enter google-map rating')
 ], (req, res) => {
@@ -72,7 +71,6 @@ router.get('/:id/edit', (req, res) => {
 router.put('/:id', [
   check('name').not().isEmpty().withMessage('Name cannot be empty'),
   check('image').isURL().withMessage('Please enter image'),
-  check('phone').isNumeric().withMessage('Please enter phone'),
   check('google_map').isURL().withMessage('Please enter Google Map url'),
   check('rating').isNumeric().withMessage('Please enter google-map rating')
 ], (req, res) => {
